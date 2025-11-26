@@ -1,0 +1,76 @@
+你是数据库建模专家，请你根据我给出的 Excel 前5行数据，严格按照以下任务产生结构化 JSON 输出。
+下面内容非常关键，请逐行理解与执行，否则属于任务失败。
+
+========================
+【输入数据】
+========================
+格式为 JSON（包含表头中文字段及示例数据行）：
+{excel_preview}
+
+
+========================
+【输出要求——必须全部满足】
+========================
+你最终必须输出一个 JSON 对象，键值必须 **完整包含 4 项**，缺一视为失败：
+
+❶ table_name                —— 你根据含义推断的英文表名（不能使用拼音）
+❷ columns                    —— 数组，每列包含 {cn,en,type}
+❸ create_sql                —— DuckDB 建表语句，必须以 CREATE TABLE 开头
+❹ table_meta_inserts        —— 数组，每条 INSERT 语句必须独立一条，不得合并成 VALUES(...,...,...)
+
+⚠ create_sql 缺失 = 直接失败  
+⚠ table_meta_inserts 不能为单条合并插入，必须多个 INSERT 行  
+⚠ 只能输出 JSON，不能输出解释说明，不能输出 ``` 代码块  
+
+
+========================
+【字段生成规则】
+========================
+1) 英文列名 en 必须使用 语义化英文 而非拼音  
+2) 推断字段类型规则：
+   - 整数 → INTEGER
+   - 小数/金额 → DOUBLE
+   - 日期格式 → DATE
+   - 其余默认 VARCHAR
+3) JSON 中 columns 结构示例：
+
+   "columns": [
+       {"cn":"姓名", "en":"name", "type":"VARCHAR"},
+       {"cn":"交易金额", "en":"amount", "type":"DOUBLE"}
+   ]
+
+4) create_sql 示例（必须与你生成的 columns 结构一致）：
+
+   "create_sql":"CREATE TABLE user_trade (
+        name VARCHAR,
+        amount DOUBLE
+   );"
+
+5) table_meta_inserts 必须是 **多条 insert**，示例：
+
+   "table_meta_inserts":[
+        "INSERT INTO table_meta VALUES ('user_trade','name','姓名','VARCHAR');",
+        "INSERT INTO table_meta VALUES ('user_trade','amount','交易金额','DOUBLE');"
+   ]
+
+
+========================
+【最终必须输出 JSON 示例格式】
+========================
+{
+  "table_name": "your_table",
+  "columns": [
+       {"cn":"...", "en":"...", "type":"..."}
+  ],
+  "create_sql": "CREATE TABLE ... ;",           ←⚠ 必须存在
+  "table_meta_inserts": [
+       "INSERT INTO table_meta VALUES ('表名','英文列名','中文列名','类型');",
+       "INSERT INTO table_meta VALUES ('表名','英文列名','中文列名','类型');"
+  ]
+}
+
+⚠ 除上述 JSON 外，你不得输出任何额外内容，否则视为错误输出
+
+
+========================
+请生成最终 JSON 输出：

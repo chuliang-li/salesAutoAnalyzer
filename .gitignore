@@ -1,0 +1,16 @@
+# Python 缓存文件
+__pycache__/
+
+# 操作系统生成的临时文件，通常也应该排除
+.DS_Store
+
+# Python 虚拟环境 (env, venv, etc.)
+venv/
+.venv/
+
+# 构建/分发文件
+*.egg-info/
+dist/
+
+# 其他编辑器/IDE的配置，例如VS Code (可选，但推荐)
+.vscode/
