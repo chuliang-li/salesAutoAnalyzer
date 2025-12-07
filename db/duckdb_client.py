@@ -138,7 +138,9 @@ class DuckDBClient:
 if __name__ == "__main__":
     # 1. 实例化客户端
     client = DuckDBClient()
-    client.init_table_meta()
+    df = client.get_table_list_with_sources()
+    table_name = df['table_name'].iloc[0]
+    print(table_name)
     # 打印表列表
     # print("\n--- Test Table List ---")
     # print(client.get_table_list_with_sources())

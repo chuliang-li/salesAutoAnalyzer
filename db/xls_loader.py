@@ -4,6 +4,7 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from llm_client.llm_qwen import QwenOllamaClient
 from db.duckdb_client import DuckDBClient
