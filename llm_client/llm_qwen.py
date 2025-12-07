@@ -17,20 +17,30 @@ class QwenOllamaClient:
     """
 
     def __init__(self,
+                 invoke_type: str = "freestyle",
                  model_name: str = "qwen3:4b",
                  temperature: float = 0.0,
                  prompt_file: str = None):
 
         self.model_name = model_name
         self.temperature = temperature
-
         root = Path(__file__).resolve().parents[1]
-        prompts_dir = root / "prompts"
 
-        # 默认 prompt 文件
-        self.prompt_file_path = (
+
+        if invoke_type == "freestyle":        
+            prompts_dir = root / "prompts"
+            self.prompt_file_path = (
             Path(prompt_file) if prompt_file else (prompts_dir / "xls_prompts.txt")
         )
+
+        elif invoke_type == "langchain":
+            prompts_dir = root / "promptsLC"
+            self.prompt_file_path = (
+            Path(prompt_file) if prompt_file else (prompts_dir / "sql_prompts.txt")
+        )
+
+        
+        # 默认 prompt 文件
 
         self.base_prompt = self._read_prompt(self.prompt_file_path)
         self.prompts_dir = prompts_dir
