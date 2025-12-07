@@ -1,17 +1,18 @@
 
 # LLM 中文表格自动数据分析师
 ## 主要功能
-1. **自动（LLM）加载** 多个**中文列名**xlsx文件到Duckdb数据库，通过LLM自动生成表的英文列名，并存储“中文列名-英文列名”对应关系到`table_meta` 元数据表
-2. **自动（LLM）** 对加载的中文表格数据生成多种分析图表（plotly）
+1. **Auto ETL（LLM）自动加载** 多个**中文列名**xlsx文件到Duckdb数据库，通过LLM自动生成表的英文列名，并存储“中文列名-英文列名”对应关系到`table_meta` 元数据表
+2. **自动数据分析（LLM）**： 一键生成多种分析图表（plotly）
+3. **手工模式**： 用户输入要求，按要求生成分析图
 
-![应用截图1](./images/app1.png)
+![应用截图1](./images/auto.gif)
+---
+![应用截图2](./images/manual.gif)
 
-![应用截图2](./images/app2.png)
 
-![应用截图3](./images/app3.png)
 
 ## 技术和架构说明（仅在Windows下测试通过）
-- xls数据文件以请放入 `input_xls` 目录
+- xls数据文件(中文列名)以请放入 `input_xls` 目录
   执行下面命令加载数据到 `db\salesrag.duck` 
 
   ```python
@@ -25,8 +26,15 @@
   
 - 大模型使用的是本地的**Ollama**的 `qwen3:4b` 模型，请自行下载搭建
 - 在 Windows 平台运行通过
-- 使用下面命令运行界面交互程序 
+- 使用下面命令运行**一键式图表生成**
+
   ```python
     streamlit.cmd run .\frontend\app.py
+  ```
+  
+- 使用下面命令运行**交互指令**生成分析图程序 
+
+  ```python
+    streamlit.cmd run .\frontend\lcapp.py
   ```
       
